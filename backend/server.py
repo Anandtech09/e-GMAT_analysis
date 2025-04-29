@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 load_dotenv()
 
-# Configure OpenAI client for OpenRouter
 OPEN_ROUTER_API_KEY = os.getenv("OPEN_ROUTER_API_KEY")
 
 client = AsyncOpenAI(
@@ -26,7 +25,6 @@ client = AsyncOpenAI(
 
 app = FastAPI()
 
-# Enable CORS for development
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -35,8 +33,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-CACHE_DURATION = 30 * 60  # 30 minutes in seconds
-USE_MOCK_DATA = False  # Set to True for testing without API
+CACHE_DURATION = 30 * 60
+USE_MOCK_DATA = False
 
 # In-memory cache
 cache = {
