@@ -1,73 +1,166 @@
-# Welcome to your Lovable project
+# e-GMAT Review Analyzer
 
-## Project info
+An AI-powered tool to automatically analyze e-GMAT reviews from GMAT Club and generate insights such as:
 
-**URL**: https://lovable.dev/projects/28df2f14-fd56-4530-a648-a6571d12ade8
+- Top requested features
+- Most praised strengths
+- Trend analysis over the past 4 years
+- PDF export of results
 
-## How can I edit this code?
+This project uses:
 
-There are several ways of editing your application.
+- **Backend**: FastAPI server with OpenRouter API for AI-powered operations.
+- **Frontend**: Vite + React for a clean and fast dashboard UI.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/28df2f14-fd56-4530-a648-a6571d12ade8) and start prompting.
+# 📁 Project Structure
 
-Changes made via Lovable will be committed automatically to this repo.
+```
+e-GMAT_analysis/
+├── backend/         # FastAPI backend
+│   └── server.py    # Main backend server file
+├── public/          # Vite public assets
+├── src/             # React frontend source
+│   ├── components/  # React UI components
+│   ├── pages/       # Pages (home, dashboard etc.)
+│   └── App.jsx      # Main App entry
+├── package.json     # Frontend dependencies
+├── vite.config.js   # Vite config
+└── README.md        # (you are here)
+```
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# 🚀 How to Run Locally
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 1. Clone the Repository
 
-Follow these steps:
+```bash
+git clone https://github.com/Anandtech09/e-GMAT_analysis.git
+cd e-GMAT_analysis
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 2. Backend Setup (FastAPI)
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Step into the backend folder:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+cd backend
+```
+
+### Create and activate a Python virtual environment:
+
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
+```
+
+### Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+
+### Create a `.env` file inside the `backend/` folder:
+
+```bash
+touch .env
+```
+
+Inside `.env`:
+
+```env
+OPEN_ROUTER_API_KEY=your_openrouter_api_key_here
+```
+
+### Run the backend server:
+
+```bash
+uvicorn server:app --reload --port 8000
+```
+
+- Server will start at: `http://localhost:8000`
+
+---
+
+## 3. Frontend Setup (Vite + React)
+
+### Come back to the project root:
+
+```bash
+cd ..
+```
+
+### Install frontend dependencies:
+
+```bash
+npm install
+```
+
+### Run the Vite development server:
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+- Frontend will run on: `http://localhost:5173` (default Vite port)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+# ⚙️ API Overview (Backend)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Method | Endpoint            | Description                                     |
+| ------ | ------------------- | ----------------------------------------------- |
+| `POST` | `/analyze-reviews/` | Send review text to analyze features/strengths. |
+| `GET`  | `/health`           | Simple health check of the server.              |
 
-## What technologies are used for this project?
+*(More endpoints can be added as needed.)*
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# 📋 Environment Variables
 
-## How can I deploy this project?
+The backend requires the following environment variable:
 
-Simply open [Lovable](https://lovable.dev/projects/28df2f14-fd56-4530-a648-a6571d12ade8) and click on Share -> Publish.
+| Key                  | Value                                              |
+| -------------------- | -------------------------------------------------- |
+| `OPEN_ROUTER_API_KEY` | Your OpenRouter API key (for accessing LLM models) |
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
+# 📊 Features Planned
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Review scraper (automated)
+- Summarization of most-demanded features
+- Detection of most praised strengths
+- Trend analysis year-wise
+- Generate downloadable PDF reports
+- Clean frontend dashboard (React)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+---
+
+# ⚒️ Tech Stack
+
+| Area           | Tools                                         |
+| -------------- | --------------------------------------------- |
+| Backend        | FastAPI, Uvicorn, OpenAI API (via OpenRouter) |
+| Frontend       | React.js (Vite), Axios                        |
+| PDF Generation | (coming soon)                                 |
+
+---
+
+# 🙍 Acknowledgements
+
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Vite.js](https://vitejs.dev/)
+- [OpenRouter API](https://openrouter.ai/)
+- [GMAT Club Reviews](https://gmatclub.com/reviews/e-gmat-6)
+
+---
