@@ -18,7 +18,6 @@ load_dotenv()
 
 # Configure OpenAI client for OpenRouter
 OPEN_ROUTER_API_KEY = os.getenv("OPEN_ROUTER_API_KEY")
-logger.debug(f"Loaded OPEN_ROUTER_API_KEY: {OPEN_ROUTER_API_KEY}")
 
 client = AsyncOpenAI(
     base_url="https://openrouter.ai/api/v1",
