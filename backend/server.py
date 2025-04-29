@@ -34,7 +34,6 @@ app.add_middleware(
 )
 
 CACHE_DURATION = 30 * 60
-USE_MOCK_DATA = False
 
 # In-memory cache
 cache = {
@@ -101,40 +100,8 @@ def is_cache_valid(cache_type: str) -> bool:
             return True
     return False
 
-async def fetch_from_openrouter(prompt: str) -> dict:
+async def fetch_from_openrouter(prompt: str, model: str = "anthropic/claude-3-opus:beta") -> dict:
     """Fetch data from OpenRouter API using AsyncOpenAI client."""
-    if USE_MOCK_DATA:
-        logger.info("Using mock data")
-        if "statistics" in prompt.lower():
-            return {
-                "totalReviews": 100,
-                "averageRating": 4.5,
-                "reviewsOverTime": [{"month": "2024-01", "count": 10}],
-                "ratingsDistribution": [{"rating": 5, "count": 60}]
-            }
-        elif "features" in prompt.lower():
-            return [{"feature": "Better UI", "count": 20, "percentage": 20.0}]
-        elif "strengths" in prompt.lower():
-            return [{"strength": "Great content", "count": 30, "percentage": 30.0}]
-        elif "trends" in prompt.lower():
-            return {
-                "years": ["2021", "2022"],
-                "ratings": [4.0, 4.5],
-                "strengths": [{"name": "Content", "data": [10, 20]}],
-                "featureRequests": [{"name": "UI", "data": [5, 10]}]
-            }
-        elif "reviews" in prompt.lower():
-            return [
-                {
-                    "id": "1",
-                    "text": "Great course!",
-                    "rating": 5.0,
-                    "date": "2024-01-01",
-                    "author": "User1"
-                }
-            ]
-        return {}
-    
     if not OPEN_ROUTER_API_KEY:
         logger.error("OpenRouter API key not set")
         raise HTTPException(status_code=500, detail="OpenRouter API key not set")
@@ -147,15 +114,19 @@ async def fetch_from_openrouter(prompt: str) -> dict:
         logger.debug(f"Sending headers: {headers}")
         
         response = await client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model=model,  # Using Claude 3 Opus for better web scraping abilities
             messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant that extracts data from websites. Output only valid JSON without any explanations or markdown formatting."
+                },
                 {
                     "role": "user",
                     "content": prompt
                 }
             ],
             extra_headers=headers,
-            timeout=30.0
+            timeout=60.0  # Increased timeout for more complex scraping
         )
         
         logger.info("OpenRouter API request successful")
@@ -240,7 +211,7 @@ async def get_reviews():
     
     try:
         prompt = """
-        Please visit https://gmatclub.com/reviews/e-gmat-6 and extract the latest 10 reviews. 
+        Please visit https://gmatclub.com/reviews/e-gmat-6 and extract the recent 10 reviews. 
         For each review, include:
         1. An id (a string, e.g., "1", "2", etc.)
         2. The rating (out of 5)
@@ -342,7 +313,7 @@ async def get_features():
         Ensure the output is clean JSON without any Markdown or code block formatting.
         """
         
-        result = await fetch_from_openrouter(prompt)
+        result = await fetch_from_openrouter(prompt, "anthropic/claude-3-haiku:beta")  # Using a faster model for simple extraction
         
         # Validate the response
         try:
@@ -385,7 +356,7 @@ async def get_strengths():
         Ensure the output is clean JSON without any Markdown or code block formatting.
         """
         
-        result = await fetch_from_openrouter(prompt)
+        result = await fetch_from_openrouter(prompt, "anthropic/claude-3-haiku:beta")  # Using a faster model for simple extraction
         
         # Validate the response
         try:
@@ -433,7 +404,7 @@ async def get_trends():
         Ensure the output is clean JSON without any Markdown or code block formatting.
         """
         
-        result = await fetch_from_openrouter(prompt)
+        result = await fetch_from_openrouter(prompt, "anthropic/claude-3-sonnet:beta")  # Using a balanced model for complex analysis
         
         # Validate the response
         try:
