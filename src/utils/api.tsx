@@ -1,8 +1,8 @@
-
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
+const BACKEND_URL="http://127.0.0.1:8000";
 export interface Review {
   id: string;
   text: string;
@@ -39,7 +39,7 @@ export interface TrendAnalysis {
 
 export const fetchReviews = async (): Promise<Review[]> => {
   try {
-    const response = await fetch("http://localhost:8000/api/reviews");
+    const response = await fetch(`${BACKEND_URL}/api/reviews`);
     if (!response.ok) {
       throw new Error("Failed to fetch reviews");
     }
@@ -56,7 +56,7 @@ export const fetchReviews = async (): Promise<Review[]> => {
 
 export const fetchReviewStatistics = async (): Promise<ReviewStatistics> => {
   try {
-    const response = await fetch("http://localhost:8000/api/statistics");
+    const response = await fetch(`${BACKEND_URL}/api/statistics`);
     if (!response.ok) {
       throw new Error("Failed to fetch statistics");
     }
@@ -73,7 +73,7 @@ export const fetchReviewStatistics = async (): Promise<ReviewStatistics> => {
 
 export const fetchFeatureRequests = async (): Promise<FeatureRequest[]> => {
   try {
-    const response = await fetch("http://localhost:8000/api/features");
+    const response = await fetch(`${BACKEND_URL}/api/features`);
     if (!response.ok) {
       throw new Error("Failed to fetch feature requests");
     }
@@ -90,14 +90,14 @@ export const fetchFeatureRequests = async (): Promise<FeatureRequest[]> => {
 
 export const fetchStrengths = async (): Promise<Strength[]> => {
   try {
-    const response = await fetch("http://localhost:8000/api/strengths");
+    const response = await fetch(`${BACKEND_URL}/api/strengths`);
     if (!response.ok) {
       throw new Error("Failed to fetch strengths");
     }
     return await response.json();
   } catch (error) {
     toast({
-      title: "Error", 
+      title: "Error",
       description: "Failed to fetch strengths. Please try again later.",
       variant: "destructive"
     });
@@ -107,7 +107,7 @@ export const fetchStrengths = async (): Promise<Strength[]> => {
 
 export const fetchTrendAnalysis = async (): Promise<TrendAnalysis> => {
   try {
-    const response = await fetch("http://localhost:8000/api/trends");
+    const response = await fetch(`${BACKEND_URL}/api/trends`);
     if (!response.ok) {
       throw new Error("Failed to fetch trend analysis");
     }

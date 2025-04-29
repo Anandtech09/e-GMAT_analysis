@@ -53,7 +53,7 @@ const TrendAnalysisCard: React.FC = () => {
   }));
   
   return (
-    <Card className="col-span-1 lg:col-span-3">
+    <Card className="col-span-1 lg:col-span-4">
       <CardHeader>
         <CardTitle>Trend Analysis</CardTitle>
       </CardHeader>
