@@ -39,7 +39,7 @@ const StrengthsCard: React.FC = () => {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col md:flex-row items-start justify-between">
-          <div className="w-full md:w-1/2 h-[250px] mb-4 md:mb-0">
+          <div className="w-full md:w-1/2 h-[350px] mb-4 md:mb-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

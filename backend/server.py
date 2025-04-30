@@ -100,7 +100,7 @@ def is_cache_valid(cache_type: str) -> bool:
             return True
     return False
 
-async def fetch_from_openrouter(prompt: str, model: str = "anthropic/claude-3-opus:beta") -> dict:
+async def fetch_from_openrouter(prompt: str, model: str = "google/gemini-2.5-pro-preview-03-25") -> dict:
     """Fetch data from OpenRouter API using AsyncOpenAI client."""
     if not OPEN_ROUTER_API_KEY:
         logger.error("OpenRouter API key not set")
@@ -211,7 +211,7 @@ async def get_reviews():
     
     try:
         prompt = """
-        Please visit https://gmatclub.com/reviews/e-gmat-6 and extract the recent 10 reviews. 
+        Please visit https://gmatclub.com/reviews/e-gmat-6 and extract the recent 10 reviews in 2025 and 2024. 
         For each review, include:
         1. An id (a string, e.g., "1", "2", etc.)
         2. The rating (out of 5)
@@ -256,7 +256,7 @@ async def get_statistics():
     
     try:
         prompt = """
-        Please analyze first 1000 reviews on https://gmatclub.com/reviews/e-gmat-6 and provide statistics in the following format:
+        Please analyze first 1000 reviews on https://gmatclub.com/reviews/e-gmat-6 ( maximize the collection of review between 2024 and 2025 ) and provide statistics in the following format:
         1. Total number of reviews
         2. Average rating
         3. Reviews over time (monthly counts for the last 12 months)
@@ -303,7 +303,7 @@ async def get_features():
     
     try:
         prompt = """
-        Please analyze the reviews on https://gmatclub.com/reviews/e-gmat-6 and extract the top 6 most requested features or improvements.
+        Please analyze the first 1000 reviews on https://gmatclub.com/reviews/e-gmat-6 and extract the top 6 most requested features or improvements.
         For each feature, include:
         1. The name of the feature
         2. The count of mentions
@@ -313,7 +313,7 @@ async def get_features():
         Ensure the output is clean JSON without any Markdown or code block formatting.
         """
         
-        result = await fetch_from_openrouter(prompt, "anthropic/claude-3-haiku:beta")  # Using a faster model for simple extraction
+        result = await fetch_from_openrouter(prompt, "google/gemini-2.5-pro-preview-03-25")  # Using a faster model for simple extraction
         
         # Validate the response
         try:
@@ -346,7 +346,7 @@ async def get_strengths():
     
     try:
         prompt = """
-        Please analyze the reviews on https://gmatclub.com/reviews/e-gmat-6 and extract the top 5 most mentioned strengths or positive aspects.
+        Please analyze the first 1000 reviews on https://gmatclub.com/reviews/e-gmat-6 and extract the top 5 most mentioned strengths or positive aspects.
         For each strength, include:
         1. The name or description of the strength
         2. The count of mentions
@@ -356,7 +356,7 @@ async def get_strengths():
         Ensure the output is clean JSON without any Markdown or code block formatting.
         """
         
-        result = await fetch_from_openrouter(prompt, "anthropic/claude-3-haiku:beta")  # Using a faster model for simple extraction
+        result = await fetch_from_openrouter(prompt, "google/gemini-2.5-pro-preview-03-25")  # Using a faster model for simple extraction
         
         # Validate the response
         try:
@@ -389,9 +389,9 @@ async def get_trends():
     
     try:
         prompt = """
-        Please analyze the reviews on https://gmatclub.com/reviews/e-gmat-6 and create a trend analysis for the past 4 years.
+        Please analyze the first 1000 reviews on https://gmatclub.com/reviews/e-gmat-6 and create a trend analysis for the past 4 years( 2022, 2023, 2024, 2025 ).
         Include:
-        1. The years (as strings like "2020", "2021", etc.)
+        1. The years (as strings like "2024", "2025", etc.)
         2. Average ratings for each year
         3. Top 4 strengths and how they've changed over the years (as data points)
         4. Top 4 feature requests and how they've changed over the years (as data points)
@@ -404,7 +404,7 @@ async def get_trends():
         Ensure the output is clean JSON without any Markdown or code block formatting.
         """
         
-        result = await fetch_from_openrouter(prompt, "anthropic/claude-3-sonnet:beta")  # Using a balanced model for complex analysis
+        result = await fetch_from_openrouter(prompt, "google/gemini-2.5-pro-preview-03-25")  # Using a balanced model for complex analysis
         
         # Validate the response
         try:
